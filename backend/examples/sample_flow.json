@@ -1,0 +1,52 @@
+{
+  "nodes": [
+    {
+      "id": "node-1",
+      "type": "aasServer",
+      "data": {
+        "label": "BaSyx Server",
+        "endpoint": "http://localhost:4000",
+        "authType": "none",
+        "status": "idle"
+      }
+    },
+    {
+      "id": "node-2",
+      "type": "submodel",
+      "data": {
+        "label": "DPP Submodel",
+        "semanticId": "0173-1#01-AHF578#001",
+        "submodelIdShort": "DigitalProductPassport",
+        "schemaType": "DPP",
+        "status": "idle"
+      }
+    },
+    {
+      "id": "node-3",
+      "type": "converter",
+      "data": {
+        "label": "AAS to DPP",
+        "inputFormat": "AAS JSON",
+        "outputFormat": "DPP JSON",
+        "mapping": "{}",
+        "status": "idle"
+      }
+    },
+    {
+      "id": "node-4",
+      "type": "action",
+      "data": {
+        "label": "Validate DPP",
+        "actionType": "validate",
+        "target": "",
+        "parameters": "{\"required\":[\"product\",\"sustainability\"]}",
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "node-1", "target": "node-2" },
+    { "id": "e2", "source": "node-2", "target": "node-3" },
+    { "id": "e3", "source": "node-3", "target": "node-4" }
+  ]
+}
