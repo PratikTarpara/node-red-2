@@ -1,0 +1,174 @@
+@use '../../../styles/variables' as *;
+
+.console {
+  display: flex;
+  flex-direction: column;
+  height: 34px;
+  border-top: 1px solid $border;
+  background: $bg-secondary;
+  flex-shrink: 0;
+  transition: height $transition-slow;
+  overflow: hidden;
+
+  &.console--open {
+    height: 200px;
+  }
+}
+
+.console__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  border-bottom: 1px solid transparent;
+
+  .console--open & {
+    border-bottom-color: $border;
+  }
+}
+
+.console__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $text-muted;
+  flex-shrink: 0;
+
+  &.console__dot--error {
+    background: $accent-red;
+  }
+
+  &.console__dot--success {
+    background: $accent-green;
+  }
+}
+
+.console__title {
+  font-size: 11px;
+  font-weight: 700;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.console__count {
+  font-size: 11px;
+  color: $text-muted;
+  background: $bg-card;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid $border;
+}
+
+.console__spacer {
+  flex: 1;
+}
+
+.console__clear {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: $radius-sm;
+  transition: $transition-base;
+
+  &:hover {
+    color: $text-secondary;
+  }
+}
+
+.console__chevron {
+  color: $text-muted;
+  transition: transform $transition-slow;
+  flex-shrink: 0;
+
+  &.console__chevron--closed {
+    transform: rotate(-90deg);
+  }
+}
+
+.console__body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.console__empty {
+  padding: 20px;
+  text-align: center;
+  color: $text-muted;
+  font-size: 12px;
+}
+
+// ── Log lines ─────────────────────────────────────────────────────────────────
+
+.log-line {
+  display: flex;
+  gap: 8px;
+  padding: 5px 12px;
+  border-bottom: 1px solid $border-subtle;
+  align-items: flex-start;
+
+  &.log-line--info {
+    background: rgb(59 130 246 / 8%);
+  }
+
+  &.log-line--warn {
+    background: rgb(251 191 36 / 8%);
+  }
+
+  &.log-line--error {
+    background: rgb(239 68 68 / 8%);
+  }
+
+  &.log-line--success {
+    background: rgb(52 211 153 / 8%);
+  }
+}
+
+.log-line__time {
+  color: $text-muted;
+  font-size: 10px;
+  font-family: $font-family-mono;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.log-line__level {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  padding-top: 1px;
+  min-width: 52px;
+
+  .log-line--info & { color: #60a5fa; }
+  .log-line--warn & { color: #fbbf24; }
+  .log-line--error & { color: $accent-red; }
+  .log-line--success & { color: #34d399; }
+}
+
+.log-line__node {
+  font-size: 10px;
+  color: $accent-orange;
+  font-weight: 600;
+  flex-shrink: 0;
+  padding-top: 1px;
+  min-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.log-line__msg {
+  font-size: 11px;
+  color: $text-secondary;
+  font-family: $font-family-mono;
+  word-break: break-all;
+}

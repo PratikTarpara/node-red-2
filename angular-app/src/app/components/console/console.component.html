@@ -1,0 +1,85 @@
+<section
+  class="console"
+  [class.console--open]="state.consoleOpen$ | async"
+  aria-label="Debug console"
+>
+  <!-- Console header (click to toggle) -->
+  <div
+    class="console__header"
+    role="button"
+    tabindex="0"
+    (click)="onToggle()"
+    (keyup.enter)="onToggle()"
+    (keyup.space)="onToggle()"
+    [attr.aria-expanded]="state.consoleOpen$ | async"
+  >
+    <!-- Status dot — computed in component to avoid arrow fns in template -->
+    <span
+      class="console__dot"
+      [class.console__dot--error]="hasError(state.logs$ | async)"
+      [class.console__dot--success]="hasSuccess(state.logs$ | async)"
+      aria-hidden="true"
+    ></span>
+
+    <span class="console__title">Debug Console</span>
+
+    <span class="console__count" [attr.aria-label]="(state.logs$ | async)?.length + ' log entries'">
+      {{ (state.logs$ | async)?.length }}
+    </span>
+
+    <div class="console__spacer"></div>
+
+    <button
+      class="console__clear"
+      (click)="onClear($event)"
+      title="Clear logs"
+      aria-label="Clear console logs"
+    >
+      <!-- Trash icon -->
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+      </svg>
+    </button>
+
+    <!-- Chevron -->
+    <svg
+      class="console__chevron"
+      [class.console__chevron--closed]="!(state.consoleOpen$ | async)"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </div>
+
+  <!-- Log entries -->
+  <div
+    class="console__body"
+    role="log"
+    aria-live="polite"
+    aria-label="Execution log"
+    *ngIf="state.consoleOpen$ | async"
+  >
+    <ng-container *ngIf="(state.logs$ | async)?.length === 0; else logList">
+      <p class="console__empty">No logs yet. Run a flow to see execution output.</p>
+    </ng-container>
+    <ng-template #logList>
+      <div
+        *ngFor="let log of reverseLogs(state.logs$ | async); trackBy: trackById"
+        class="log-line"
+        [ngClass]="levelClass(log.level)"
+      >
+        <span class="log-line__time">{{ formatTime(log.timestamp) }}</span>
+        <span class="log-line__level">[{{ log.level }}]</span>
+        <span class="log-line__node">{{ log.nodeLabel }}</span>
+        <span class="log-line__msg">{{ log.message }}</span>
+      </div>
+    </ng-template>
+  </div>
+</section>

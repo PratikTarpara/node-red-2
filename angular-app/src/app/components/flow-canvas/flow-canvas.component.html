@@ -1,0 +1,21 @@
+<div class="canvas-wrapper" role="main" aria-label="Flow canvas">
+  <!-- The React web component is registered as <aas-flow-canvas> -->
+  <aas-flow-canvas
+    #canvasWC
+    class="canvas-wc"
+    nodes="[]"
+    edges="[]"
+    running="false"
+  ></aas-flow-canvas>
+
+  <!-- Empty state hint — shown when WC signals no nodes via attribute -->
+  <div
+    class="canvas-empty-state"
+    aria-live="polite"
+    *ngIf="(state.nodes$ | async)?.length === 0"
+  >
+    <span class="canvas-empty-state__icon" aria-hidden="true">⬡</span>
+    <p class="canvas-empty-state__title">Drag nodes from the sidebar to get started</p>
+    <p class="canvas-empty-state__sub">Build your AAS workflow by connecting nodes</p>
+  </div>
+</div>

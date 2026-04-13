@@ -1,0 +1,71 @@
+// =============================================================================
+// AAS Flow Node Styles — shared between Angular components and the Web Component
+// Relies on CSS custom properties defined in _variables.scss
+// =============================================================================
+
+.aas-node {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 40%);
+  min-width: 200px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  font-family: var(--font-base);
+
+  &:hover,
+  &.selected {
+    box-shadow: 0 6px 32px rgb(0 0 0 / 60%);
+  }
+}
+
+.aas-node-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 11px 11px 0 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.aas-node-body {
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.aas-node-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+// Status variants
+.status-idle {
+  background: var(--text-muted);
+}
+
+.status-running {
+  background: var(--accent-blue);
+  animation: node-pulse 1s infinite;
+}
+
+.status-success {
+  background: var(--accent-green);
+}
+
+.status-error {
+  background: var(--accent-red);
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}

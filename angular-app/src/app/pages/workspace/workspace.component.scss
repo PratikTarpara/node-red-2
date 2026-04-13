@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as *;
+
+.workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.workspace__body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.workspace__center {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}

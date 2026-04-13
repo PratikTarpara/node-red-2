@@ -1,0 +1,56 @@
+@use '../../../styles/variables' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; // critical — prevents flex child from overflowing
+  overflow: hidden;
+  position: relative;
+}
+
+.canvas-wrapper {
+  display: flex;
+  flex: 1;
+  min-height: 0; // critical — prevents height collapse in flex column
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-wc {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  pointer-events: none; // never blocks drag events
+  z-index: 1;
+}
+
+.canvas-empty-state__icon {
+  font-size: 48px;
+  opacity: 0.15;
+}
+
+.canvas-empty-state__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: $text-muted;
+  opacity: 0.5;
+}
+
+.canvas-empty-state__sub {
+  font-size: 13px;
+  color: $text-muted;
+  opacity: 0.35;
+}
