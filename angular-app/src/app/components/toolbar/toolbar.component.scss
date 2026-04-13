@@ -1,0 +1,130 @@
+@use '../../../styles/variables' as *;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 54px;
+  padding: 0 $spacing-md;
+  background: $bg-secondary;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+}
+
+.toolbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: $spacing-sm;
+}
+
+.toolbar__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  background: linear-gradient(135deg, #1e3a6e, #3b0764);
+  box-shadow: 0 0 12px $accent-blue-glow;
+  font-size: 16px;
+}
+
+.toolbar__title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar__title {
+  font-weight: 700;
+  font-size: 13px;
+  color: $text-primary;
+  letter-spacing: -0.01em;
+}
+
+.toolbar__subtitle {
+  font-size: 10px;
+  color: $text-muted;
+  letter-spacing: 0.05em;
+}
+
+.toolbar__divider {
+  width: 1px;
+  height: 30px;
+  background: $border;
+  margin: 0 $spacing-xs;
+}
+
+.toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.toolbar__spacer {
+  flex: 1;
+}
+
+.toolbar__stats {
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  color: $text-muted;
+
+  strong {
+    color: $text-secondary;
+  }
+}
+
+// ── Button base ───────────────────────────────────────────────────────────────
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: $radius-md;
+  border: 1px solid $border;
+  background: $bg-card;
+  color: $text-secondary;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: $transition-base;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    border-color: $accent-blue;
+    color: #93c5fd;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ── Button variants ───────────────────────────────────────────────────────────
+
+.btn--run {
+  background: linear-gradient(135deg, #065f46, #047857);
+  border-color: $accent-green;
+  color: #6ee7b7;
+
+  &:hover:not(:disabled) {
+    border-color: $accent-green;
+    color: #a7f3d0;
+  }
+}
+
+.btn--running {
+  background: #164e2e;
+}
+
+.btn--danger {
+  &:hover:not(:disabled) {
+    border-color: $accent-red;
+    color: #fca5a5;
+  }
+}

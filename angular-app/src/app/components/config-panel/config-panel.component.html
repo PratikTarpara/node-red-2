@@ -1,0 +1,213 @@
+<aside class="config-panel" role="complementary" aria-label="Node configuration">
+  <ng-container *ngIf="selectedNode$ | async as node; else emptyState">
+    <!-- Header -->
+    <div class="config-panel__header">
+      <div>
+        <div class="config-panel__type-label">Node Config</div>
+        <div
+          class="config-panel__type-name"
+          [style.color]="nodeTypeColors[node.type] || 'var(--text-primary)'"
+        >
+          {{ nodeTypeLabels[node.type] || node.type }}
+        </div>
+      </div>
+      <button
+        class="config-panel__close"
+        (click)="onClose()"
+        aria-label="Close configuration panel"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Forms per type -->
+    <div class="config-panel__body">
+      <ng-container [ngSwitch]="node.type">
+
+        <!-- AAS Server -->
+        <ng-container *ngSwitchCase="'aasServer'">
+          <div class="field">
+            <label class="field__label" [for]="'label-' + node.id">Label</label>
+            <input
+              class="field__input"
+              [id]="'label-' + node.id"
+              type="text"
+              [ngModel]="asAASServer(node.data).label"
+              (ngModelChange)="updateField(node.id, 'label', $event)"
+            />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'endpoint-' + node.id">Endpoint URL</label>
+            <input
+              class="field__input field__input--mono"
+              [id]="'endpoint-' + node.id"
+              type="text"
+              placeholder="http://localhost:4000"
+              [ngModel]="asAASServer(node.data).endpoint"
+              (ngModelChange)="updateField(node.id, 'endpoint', $event)"
+            />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'auth-' + node.id">Authentication</label>
+            <select
+              class="field__select"
+              [id]="'auth-' + node.id"
+              [ngModel]="asAASServer(node.data).authType"
+              (ngModelChange)="updateField(node.id, 'authType', $event)"
+            >
+              <option value="none">None</option>
+              <option value="basic">Basic Auth</option>
+              <option value="bearer">Bearer Token</option>
+            </select>
+          </div>
+          <ng-container *ngIf="asAASServer(node.data).authType === 'basic'">
+            <div class="field">
+              <label class="field__label" [for]="'user-' + node.id">Username</label>
+              <input class="field__input" [id]="'user-' + node.id" type="text"
+                [ngModel]="asAASServer(node.data).username ?? ''"
+                (ngModelChange)="updateField(node.id, 'username', $event)" />
+            </div>
+            <div class="field">
+              <label class="field__label" [for]="'pwd-' + node.id">Password</label>
+              <input class="field__input" [id]="'pwd-' + node.id" type="password"
+                [ngModel]="asAASServer(node.data).password ?? ''"
+                (ngModelChange)="updateField(node.id, 'password', $event)" />
+            </div>
+          </ng-container>
+          <ng-container *ngIf="asAASServer(node.data).authType === 'bearer'">
+            <div class="field">
+              <label class="field__label" [for]="'token-' + node.id">Bearer Token</label>
+              <input class="field__input field__input--mono" [id]="'token-' + node.id" type="text"
+                placeholder="Bearer token"
+                [ngModel]="asAASServer(node.data).token ?? ''"
+                (ngModelChange)="updateField(node.id, 'token', $event)" />
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <!-- Submodel -->
+        <ng-container *ngSwitchCase="'submodel'">
+          <div class="field">
+            <label class="field__label" [for]="'label-' + node.id">Label</label>
+            <input class="field__input" [id]="'label-' + node.id" type="text"
+              [ngModel]="asSubmodel(node.data).label"
+              (ngModelChange)="updateField(node.id, 'label', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'schema-' + node.id">Schema Type</label>
+            <select class="field__select" [id]="'schema-' + node.id"
+              [ngModel]="asSubmodel(node.data).schemaType"
+              (ngModelChange)="updateField(node.id, 'schemaType', $event)">
+              <option value="DPP">Digital Product Passport</option>
+              <option value="TechnicalData">Technical Data</option>
+              <option value="ContactInformation">Contact Information</option>
+              <option value="Custom">Custom</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'idshort-' + node.id">Submodel ID Short</label>
+            <input class="field__input" [id]="'idshort-' + node.id" type="text"
+              [ngModel]="asSubmodel(node.data).submodelIdShort"
+              (ngModelChange)="updateField(node.id, 'submodelIdShort', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'semid-' + node.id">Semantic ID</label>
+            <input class="field__input field__input--mono" [id]="'semid-' + node.id" type="text"
+              placeholder="0173-1#01-AHF578#001"
+              [ngModel]="asSubmodel(node.data).semanticId"
+              (ngModelChange)="updateField(node.id, 'semanticId', $event)" />
+          </div>
+        </ng-container>
+
+        <!-- Converter -->
+        <ng-container *ngSwitchCase="'converter'">
+          <div class="field">
+            <label class="field__label" [for]="'label-' + node.id">Label</label>
+            <input class="field__input" [id]="'label-' + node.id" type="text"
+              [ngModel]="asConverter(node.data).label"
+              (ngModelChange)="updateField(node.id, 'label', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'informat-' + node.id">Input Format</label>
+            <input class="field__input" [id]="'informat-' + node.id" type="text"
+              [ngModel]="asConverter(node.data).inputFormat"
+              (ngModelChange)="updateField(node.id, 'inputFormat', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'outformat-' + node.id">Output Format</label>
+            <input class="field__input" [id]="'outformat-' + node.id" type="text"
+              [ngModel]="asConverter(node.data).outputFormat"
+              (ngModelChange)="updateField(node.id, 'outputFormat', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'mapping-' + node.id">Mapping Rules (JSON)</label>
+            <textarea class="field__textarea field__input--mono" [id]="'mapping-' + node.id"
+              placeholder='{"sourceField": "targetField"}'
+              [ngModel]="asConverter(node.data).mapping"
+              (ngModelChange)="updateField(node.id, 'mapping', $event)">
+            </textarea>
+          </div>
+        </ng-container>
+
+        <!-- Action -->
+        <ng-container *ngSwitchCase="'action'">
+          <div class="field">
+            <label class="field__label" [for]="'label-' + node.id">Label</label>
+            <input class="field__input" [id]="'label-' + node.id" type="text"
+              [ngModel]="asAction(node.data).label"
+              (ngModelChange)="updateField(node.id, 'label', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'atype-' + node.id">Action Type</label>
+            <select class="field__select" [id]="'atype-' + node.id"
+              [ngModel]="asAction(node.data).actionType"
+              (ngModelChange)="updateField(node.id, 'actionType', $event)">
+              <option value="read">Read</option>
+              <option value="write">Write</option>
+              <option value="validate">Validate</option>
+              <option value="transform">Transform</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'target-' + node.id">Target Path / ID</label>
+            <input class="field__input field__input--mono" [id]="'target-' + node.id" type="text"
+              placeholder="e.g. submodels/DPP/value"
+              [ngModel]="asAction(node.data).target"
+              (ngModelChange)="updateField(node.id, 'target', $event)" />
+          </div>
+          <div class="field">
+            <label class="field__label" [for]="'params-' + node.id">Parameters (JSON)</label>
+            <textarea class="field__textarea field__input--mono" [id]="'params-' + node.id"
+              placeholder="{}"
+              [ngModel]="asAction(node.data).parameters"
+              (ngModelChange)="updateField(node.id, 'parameters', $event)">
+            </textarea>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <p class="config-panel__unknown">Unknown node type: {{ node.type }}</p>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <!-- Footer -->
+    <footer class="config-panel__footer">
+      Node ID: <code>{{ node.id }}</code>
+    </footer>
+  </ng-container>
+
+  <!-- Empty state -->
+  <ng-template #emptyState>
+    <div class="config-panel__empty">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"></path>
+      </svg>
+      <p>Select a node to configure its properties</p>
+    </div>
+  </ng-template>
+</aside>

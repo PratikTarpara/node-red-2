@@ -1,0 +1,48 @@
+<aside class="sidebar" role="complementary" aria-label="Node palette">
+  <!-- Header -->
+  <div class="sidebar__header">
+    <div class="sidebar__heading">Node Palette</div>
+    <div class="sidebar__subheading">Drag nodes to canvas</div>
+  </div>
+
+  <!-- Node list -->
+  <div class="sidebar__list" role="list">
+    <div
+      *ngFor="let entry of palette; trackBy: trackByType"
+      class="palette-card"
+      role="listitem"
+      draggable="true"
+      (dragstart)="onDragStart($event, entry)"
+      [style.--node-color]="entry.color"
+      [attr.aria-label]="'Drag ' + entry.label + ' node'"
+      tabindex="0"
+    >
+      <div class="palette-card__icon" [style.background]="entry.iconBg">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          [style.color]="entry.color"
+          aria-hidden="true"
+        >
+          <path [attr.d]="entry.iconPath"></path>
+        </svg>
+      </div>
+      <div class="palette-card__info">
+        <span class="palette-card__label">{{ entry.label }}</span>
+        <span class="palette-card__desc">{{ entry.description }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer tip -->
+  <footer class="sidebar__footer">
+    <span aria-label="Tip">💡</span>
+    Connect nodes by dragging from a right port to a left port.
+  </footer>
+</aside>
